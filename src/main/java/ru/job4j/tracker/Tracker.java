@@ -23,20 +23,37 @@ public class Tracker {
         return item;
     }
 
+    /**
+     * Метод замены заявки в массиве с сохранением идентфиикатора
+     * @param id идентификатор заявки, которую требуется заменить
+     * @param item заявка, которую требуется добавить на место заменённой
+     * @return возвращается истинну, если замена удачна
+     */
+
     public boolean replace(String id, Item item) {
         int index = indexOf(id);
-        item.setId(id);
-        this.items[index] = item;
-        return true;
+        boolean rsl = index != -1;
+        if (rsl) {
+            item.setId(id);
+            this.items[index] = item;
+        }
+        return rsl;
     }
-
+    /**
+     * Метод удаляет заявку из массива и смещает его влево
+     * @param id идентификатор заявки
+     * @return возвращается true, если удаление успешно
+     */
     public boolean delete(String id) {
         int index = indexOf(id);
         int start = index++;
-        items[index] = null;
-        System.arraycopy(items, start, items, index, position - index);
-        position--;
-        return true;
+        boolean rsl = index != -1;
+        if (rsl) {
+            items[index] = null;
+            System.arraycopy(items, start, items, index, position - index);
+            position--;
+        }
+        return rsl;
     }
 
     public Item[] findAll() {
