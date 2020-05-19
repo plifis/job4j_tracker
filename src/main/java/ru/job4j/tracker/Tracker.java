@@ -30,6 +30,15 @@ public class Tracker {
         return true;
     }
 
+    public boolean delete(String id) {
+        int index = indexOf(id);
+        int start = index++;
+        items[index] = null;
+        System.arraycopy(items, start, items, index, position - index);
+        position--;
+        return true;
+    }
+
     public Item[] findAll() {
         return Arrays.copyOf(items, position);
     }
