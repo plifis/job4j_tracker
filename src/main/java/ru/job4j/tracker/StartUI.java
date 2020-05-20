@@ -1,67 +1,74 @@
 package ru.job4j.tracker;
 
 
-import java.util.Scanner;
-
 public class StartUI {
-
+    public static void createItem(Input input, Tracker tracker) {
+        System.out.println("=== Create a new Item ====");
+        String name = input.askStr("Enter name: ");
+        Item item = new Item(name);
+        tracker.add(item);
+    }
+    public static void showAllItem(Input input, Tracker tracker) {
+        Item[] items = tracker.findAll();
+        for (Item item : items) {
+            System.out.println(item);
+        }
+    }
+    public static void editItem(Input input, Tracker tracker) {
+        String id = input.askStr("Enter Id Item's for edit");
+        String name = input.askStr("Enter new name");
+        Item item = new Item(name);
+        if (tracker.replace(id, item)) {
+            System.out.println("Done.");
+        } else {
+            System.out.println("Error");
+        }
+    }
+    public static void itemDelete(Input input, Tracker tracker) {
+        String id = input.askStr("Enter Id for delete");
+        if (tracker.delete(id)) {
+            System.out.println("Done.");
+        } else {
+            System.out.println("Error");
+        }
+    }
+    public static void idFind(Input input, Tracker tracker) {
+        String id = input.askStr("Enter Id for find");
+        Item item = tracker.findById(id);
+        if ((item != null)) {
+            System.out.println(item);
+        } else {
+            System.out.println("Id not found");
+        }
+    }
+    public static void nameFind(Input input, Tracker tracker) {
+        String name = input.askStr("Enter Name for find");
+        Item[] items = tracker.findByName(name);
+        for (Item item : items) {
+            if (item != null) {
+                System.out.println(item);
+            } else {
+                System.out.println("Id not found");
+            }
+        }
+    }
     public void init(Input input, Tracker tracker) {
         boolean run = true;
         while (run) {
             this.showMenu();
-            String msg = "Select";
-            int select = Integer.valueOf(input.askStr(msg));
+            int select = Integer.valueOf(input.askStr("Select"));
             if (select == 0) {
-                System.out.println("=== Create a new Item ====");
-                msg = "Enter name: ";
-                String name = input.askStr(msg);
-                Item item = new Item(name);
-                tracker.add(item);
+            StartUI.createItem(input, tracker);
             } else if (select == 1) {
-                Item[] items = tracker.findAll();
-                for (Item item : items) {
-                    System.out.println(item);
-                }
+              StartUI.showAllItem(input, tracker);
             } else if (select == 2) {
-                msg = "Enter Id Item's for edit";
-                String id = input.askStr(msg);
-                msg = "Enter new name";
-                String name = input.askStr(msg);
-                Item item = new Item(name);
-                if (tracker.replace(id, item)) {
-                    System.out.println("Done.");
-                } else {
-                    System.out.println("Error");
-                }
+                StartUI.showAllItem(input, tracker);
             } else if (select == 3) {
-                msg = "Enter Id for delete";
-                String id = input.askStr(msg);
-                if (tracker.delete(id)) {
-                    System.out.println("Done.");
-                } else {
-                    System.out.println("Error");
-                }
+                StartUI.itemDelete(input, tracker);
             } else if (select == 4) {
-                msg = "Enter Id for find";
-                String id = input.askStr(msg);
-                Item item = tracker.findById(id);
-                if ((item != null)) {
-                    System.out.println(item);
-                } else {
-                    System.out.println("Id not found");
-                }
+                StartUI.idFind(input, tracker);
             } else if (select == 5) {
-                msg = "Enter Name for find";
-                String name = input.askStr(msg);
-                Item[] items = tracker.findByName(name);
-
-                for (Item item : items) {
-                    if (item != null) {
-                        System.out.println(item);
-                    } else {
-                        System.out.println("Id not found");
-                    }
-                }
+               StartUI.nameFind(input, tracker);
             } else if (select == 6) {
                 run = false;
             }
