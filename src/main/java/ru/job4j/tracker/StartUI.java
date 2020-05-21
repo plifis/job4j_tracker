@@ -45,7 +45,7 @@ public class StartUI {
         String name = input.askStr("Enter Name for find");
         Item[] items = tracker.findByName(name);
         for (Item item : items) {
-            if (item != null) {
+            if (items.length > 0) {
                 System.out.println(item);
             } else {
                 System.out.println("Id not found");
