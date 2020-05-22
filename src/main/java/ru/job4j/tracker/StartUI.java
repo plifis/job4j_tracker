@@ -44,19 +44,19 @@ public class StartUI {
     public static void nameFind(Input input, Tracker tracker) {
         String name = input.askStr("Enter Name for find");
         Item[] items = tracker.findByName(name);
-        for (Item item : items) {
             if (items.length > 0) {
-                System.out.println(item);
+                for (Item item : items) {
+                    System.out.println(item);
+                }
             } else {
-                System.out.println("Id not found");
+                System.out.println(String.format("Items with name: %s not found", name));
             }
-        }
     }
     public void init(Input input, Tracker tracker) {
         boolean run = true;
         while (run) {
             this.showMenu();
-            int select = Integer.valueOf(input.askStr("Select"));
+            int select = Integer.valueOf(input.askStr("Select" + System.lineSeparator()));
             if (select == 0) {
             StartUI.createItem(input, tracker);
             } else if (select == 1) {
