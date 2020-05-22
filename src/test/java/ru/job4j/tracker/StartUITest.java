@@ -1,15 +1,24 @@
-//package ru.job4j.tracker;
-//
-//import org.junit.Test;
-//
-//import java.util.Scanner;
-//
-//import static org.hamcrest.core.Is.is;
-//import static org.junit.Assert.*;
-//import static org.hamcrest.CoreMatchers.*;
-//
-//
-//public class StartUITest {
+package ru.job4j.tracker;
+
+import org.junit.Test;
+
+import java.util.Scanner;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+
+
+public class StartUITest {
+    @Test
+    public void whenExit() {
+        StubInput input = new StubInput(
+                new String[] {"0"}
+        );
+        StubAction action = new StubAction();
+        new StartUI().init(input, new Tracker(), new UserAction[] { action });
+        assertThat(action.isCall(), is(true));
+    }
 //    @Test
 //    public void whenAddItem() {
 //        String[] answers = {"Fix PC"};
@@ -44,4 +53,4 @@
 //        assertNull(null, tracker.findById(item.getId()));
 //   //     assertThat(deleted, is(nullValue()));
 //    }
-//}
+}
