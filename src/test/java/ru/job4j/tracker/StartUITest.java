@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+
 
 public class StartUITest {
     @Test
@@ -40,5 +42,6 @@ public class StartUITest {
         StartUI.itemDelete(new StubInput(answers), tracker);
         Item deleted = tracker.findById(item.getId());
         assertNull(null, tracker.findById(item.getId()));
+   //     assertThat(deleted, is(nullValue()));
     }
 }
