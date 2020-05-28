@@ -23,18 +23,19 @@ public class ValidateInputTest {
             );
             System.setOut(out);
         }
-//         @Test
-//    public void whenInvalidNumber() {
-//        ByteArrayOutputStream mem = new ByteArrayOutputStream();
-//        PrintStream out = System.out;
-//        System.setOut(new PrintStream(mem));
-//        String[] data = {"8", "2"};
-//        ValidateInput input = new ValidateStubInput(data);
-//        input.askInt("Hello", 6);
-//        assertThat(
-//                mem.toString(),
-//                is(String.format("Please select key from menu.%n"))
-//        );
-//        System.setOut(out);
-//    }
+         @Test
+    public void whenInvalidNumber() {
+        ByteArrayOutputStream mem = new ByteArrayOutputStream();
+        PrintStream out = System.out;
+        System.setOut(new PrintStream(mem));
+        ValidateInput input = new ValidateInput(
+                new StubInput(new String[]{"10", "2"})
+        );
+        input.askInt("Enter", 6 );
+        assertThat(
+                mem.toString(),
+                is(String.format("Please select key from menu.%n"))
+        );
+        System.setOut(out);
+    }
 }
