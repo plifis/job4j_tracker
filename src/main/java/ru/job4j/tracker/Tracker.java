@@ -1,13 +1,15 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Tracker {
     /**
      * Массив для хранения заявок.
      */
-    private final Item[] items = new Item[100];
+    private final List<Item> items = new ArrayList<>();
     /**
      * Указатель ячейки для новой заявки.
      */
@@ -19,7 +21,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(generateId());
-        items[position++] = item;
+        items.add(item);
         return item;
     }
 
@@ -35,7 +37,7 @@ public class Tracker {
         boolean rsl = index != -1;
         if (rsl) {
             item.setId(id);
-            this.items[index] = item;
+            this.items.set(index, item);
         }
         return rsl;
     }
@@ -48,23 +50,23 @@ public class Tracker {
         int index = indexOf(id);
         boolean rsl = index != -1;
         if (rsl) {
-            items[index] = null;
+            items.remove(index);
             System.arraycopy(items, index++, items, index, position - index);
             position--;
         }
         return rsl;
     }
 
-    public Item[] findAll() {
-        return Arrays.copyOf(items, position);
+    public List<Item> findAll() {
+        return items;
     }
 
     public Item[] findByName(String key) {
-        Item[] itemsName = new Item[this.items.length];
+        Item[] itemsName = new Item[this.items.size()];
         int size = 0;
         for (int i = 0; i < position; i++) {
-            if (this.items[i].getName().equals(key)) {
-                itemsName[size] = this.items[i];
+            if (this.items.get(i).getName().equals(key)) {
+                itemsName[size] = this.items.get(i);
                 size++;
             }
         }
@@ -74,7 +76,7 @@ public class Tracker {
 
     public Item findById(String id) {
         int index = indexOf(id);
-        return index != -1 ? items[index] : null;
+        return index != -1 ? items.get(index) : null;
     }
         /**
          * Метод генерирует уникальный ключ для заявки.
@@ -88,7 +90,7 @@ public class Tracker {
     private int indexOf(String id) {
         int rsl = -1;
         for (int index = 0; index < position; index++) {
-            if (items[index].getId().equals(id)) {
+            if (items.get(index).getId().equals(id)) {
                 rsl = index;
                 break;
             }
