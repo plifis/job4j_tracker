@@ -51,8 +51,8 @@ public class Tracker {
         boolean rsl = index != -1;
         if (rsl) {
             items.remove(index);
-            System.arraycopy(items, index++, items, index, position - index);
-            position--;
+//            System.arraycopy(items, index++, items, index, position - index);
+ //           position--;
         }
         return rsl;
     }
@@ -61,16 +61,16 @@ public class Tracker {
         return items;
     }
 
-    public Item[] findByName(String key) {
-        Item[] itemsName = new Item[this.items.size()];
-        int size = 0;
-        for (int i = 0; i < position; i++) {
+    public List<Item> findByName(String key) {
+        List<Item> itemsName = new ArrayList<Item>(); //Item[this.items.size()];
+//        int size = 0;
+        for (int i = 0; i < this.items.size(); i++) {
             if (this.items.get(i).getName().equals(key)) {
-                itemsName[size] = this.items.get(i);
-                size++;
+                itemsName.add(this.items.get(i));
+//                size++;
             }
         }
-        itemsName = Arrays.copyOf(itemsName, size);
+//        itemsName = Arrays.copyOf(itemsName, size);
         return itemsName;
     }
 
@@ -89,7 +89,7 @@ public class Tracker {
         }
     private int indexOf(String id) {
         int rsl = -1;
-        for (int index = 0; index < position; index++) {
+        for (int index = 0; index < items.size(); index++) {
             if (items.get(index).getId().equals(id)) {
                 rsl = index;
                 break;
