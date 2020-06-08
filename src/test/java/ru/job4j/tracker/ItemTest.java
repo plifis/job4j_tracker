@@ -29,7 +29,7 @@ public class ItemTest {
                 new Item("Tom")
 
         );
-        Collections.sort(list, new Sortitem());
+        Collections.sort(list, new SortItemFromZToA());
         List<Item> expected = new ArrayList<>();
         expected.add(new Item("Tom"));
         expected.add(new Item("Nikita"));
