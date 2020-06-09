@@ -38,7 +38,7 @@ public class TrackerTest {
             tracker.add(item);
         }
         List<Item> result = tracker.findAll();
-        assertThat(result.get(1).getName(),is ("Alexey") );
+        assertThat(result.get(1).getName(), is("Alexey"));
     }
 
     @Test

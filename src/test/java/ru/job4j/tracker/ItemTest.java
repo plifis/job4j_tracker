@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class ItemTest {
 
     @Test
-    public void WhenTestCompareToItemThenAToZ() {
+    public void whenTestCompareToItemThenAToZ() {
         List<Item> list = new ArrayList<>();
         list.add(new Item("Nikita"));
         list.add(new Item("Alexey"));
@@ -22,7 +22,7 @@ public class ItemTest {
         assertEquals(list, expected);
     }
     @Test
-    public void WhenTestCompareToItemThenZToA() {
+    public void whenTestCompareToItemThenZToA() {
         List<Item> list = Arrays.asList(
                 new Item("Nikita"),
                 new Item("Alexey"),
