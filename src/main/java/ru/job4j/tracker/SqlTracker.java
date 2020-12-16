@@ -44,12 +44,10 @@ public class SqlTracker implements Store {
 
     @Override
     public Item add(Item item) {
-        StringBuilder builder = new StringBuilder("INSERT INTO items (name) values ");
-        builder.append("('").append(item.getName()).append("')");
-      //  String strQuery = "INSERT INTO items (name) values (?) ";
-       try (Statement statement = cn.createStatement()) {
-         //  statement.setString(1, item.getName());
-           statement.executeUpdate(builder.toString());
+        String strQuery = "INSERT INTO items (name) values (?) ";
+       try (PreparedStatement statement = cn.prepareStatement(strQuery)) {
+           statement.setString(1, item.getName());
+           statement.executeUpdate();
            item.setId(this.getIdSerialKey());
        } catch (Exception e) {
            e.printStackTrace();
