@@ -35,7 +35,7 @@ public class SqlTrackerTest {
     public void findAll() {
         SqlTracker tracker = new SqlTracker();
         tracker.init();
-        List<Item> exp = Arrays.asList( new Item("Roman"),
+        List<Item> exp = Arrays.asList(new Item("Roman"),
                                         new Item("Alexey"),
                                         new Item("Ivan"));
         exp.get(0).setId("3");
