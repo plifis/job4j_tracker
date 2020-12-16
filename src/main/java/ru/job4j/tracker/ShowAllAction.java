@@ -6,8 +6,8 @@ public class ShowAllAction implements UserAction {
         return "Show All Items";
     }
     @Override
-    public boolean execute(Input input, Tracker tracker) {
-        for (Item item : tracker.findAll()) {
+    public boolean execute(Input input, Store memTracker) {
+        for (Item item : memTracker.findAll()) {
             System.out.println(String.format("%s %s", item.getId(), item.getName()));
         }
         return true;

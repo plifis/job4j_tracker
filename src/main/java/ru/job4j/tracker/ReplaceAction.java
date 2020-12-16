@@ -6,11 +6,11 @@ public class ReplaceAction implements UserAction {
         return "Edit Item";
     }
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store memTracker) {
         String id = input.askStr("Enter Id Item's for edit");
         String name = input.askStr("Enter new name");
         Item item = new Item(name);
-        if (tracker.replace(id, item)) {
+        if (memTracker.replace(id, item)) {
             System.out.println("Done");
         } else {
             System.out.println("Error");

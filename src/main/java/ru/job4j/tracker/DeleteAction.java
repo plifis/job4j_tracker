@@ -6,9 +6,9 @@ public class DeleteAction implements UserAction {
         return "Delete Item";
     }
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store memTracker) {
         String id = input.askStr("Enter Id for delete");
-        if (tracker.delete(id)) {
+        if (memTracker.delete(id)) {
             System.out.println("Done.");
         } else {
             System.out.println("Error");

@@ -1,19 +1,18 @@
 package ru.job4j.tracker;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class StartUI {
 
-    public void init(Input input, Tracker tracker, List<UserAction> actions) {
+    public void init(Input input, Store memTracker, List<UserAction> actions) {
         boolean run = true;
         while (run) {
             this.showMenu(actions);
             int select = input.askInt("Select: ", actions.size());
             UserAction action = actions.get(select);
-            run = action.execute(input, tracker);
+            run = action.execute(input, memTracker);
         }
     }
 
@@ -27,12 +26,26 @@ public class StartUI {
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         Input validate = new ValidateInput(input);
-        Tracker tracker = new Tracker();
-        List<UserAction> actions = Arrays.asList(
-                new CreateAction(), new ShowAllAction(), new ReplaceAction(),
-                new DeleteAction(), new FindIdAction(), new FindNameAction(),
-                new ExitAction()
-        );
-        new StartUI().init(validate, tracker, actions);
+        try (Store tracker = new SqlTracker()) {
+            tracker.init();
+            List<UserAction> actions = Arrays.asList(
+                    new CreateAction()
+            );
+            new StartUI().init(validate, tracker, actions);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        MemTracker memTracker = new MemTracker();
+////        List<UserAction> actions = Arrays.asList(
+////                new CreateAction(), new ShowAllAction(), new ReplaceAction(),
+////                new DeleteAction(), new FindIdAction(), new FindNameAction(),
+////                new ExitAction()
+////        );
+////        new StartUI().init(validate, memTracker, actions);
     }
+
+
+
 }
