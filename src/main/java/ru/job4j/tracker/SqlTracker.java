@@ -49,8 +49,9 @@ public class SqlTracker implements Store {
            statement.setString(1, item.getName());
            statement.executeUpdate();
            ResultSet set = statement.getGeneratedKeys();
-           set.next();
-           item.setId(set.getString(1));
+           if (set.next()) {
+               item.setId(set.getString(1));
+           }
        } catch (Exception e) {
            e.printStackTrace();
        }
