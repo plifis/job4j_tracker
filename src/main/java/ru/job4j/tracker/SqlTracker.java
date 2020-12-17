@@ -9,6 +9,14 @@ import java.util.Properties;
 public class SqlTracker implements Store {
     private Connection cn;
 
+    public SqlTracker() {
+
+    }
+
+    public SqlTracker(Connection connection) {
+        this.cn = connection;
+    }
+
     /**
      * Метод инициализирует переменную подключения информацией для подклюения
      * url, user, password

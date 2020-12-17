@@ -1,71 +1,88 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+import org.junit.internal.runners.model.EachTestNotifier;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 public class SqlTrackerTest {
+    public Connection init() {
+        try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
 
     @Test
+    public void createItem() throws SQLException {
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+            tracker.add(new Item("name"));
+            assertThat(tracker.findByName("name").size(), is(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
     public void findByName() {
-        SqlTracker tracker = new SqlTracker();
-        tracker.init();
-        Item item = new Item("Nikita");
-        item.setId(tracker.add(item).getId());
-        List<Item> expected  = Collections.singletonList(item);
-        assertEquals(expected, tracker.findByName("Nikita"));
-        tracker.delete(item.getId());
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+            Item item = tracker.add(new Item("Nikita"));
+            tracker.add(new Item("name"));
+            assertThat(tracker.findByName("Nikita").get(0), is (item));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void findById() {
-        SqlTracker tracker = new SqlTracker();
-        tracker.init();
-        Item expected = new Item("Roman");
-        expected.setId("3");
-        assertEquals(expected, tracker.findById("3"));
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+            Item item = tracker.add(new Item("Nikita"));
+            String id = item.getId();
+            tracker.add(new Item("name"));
+            tracker.add(new Item("number_two"));
+            assertThat(tracker.findById(id), is(item));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void findAll() {
-        SqlTracker tracker = new SqlTracker();
-        tracker.init();
-        List<Item> exp = Arrays.asList(new Item("Roman"),
-                                        new Item("Alexey"),
-                                        new Item("Ivan"));
-        exp.get(0).setId("3");
-        exp.get(1).setId("2");
-        exp.get(2).setId("1");
-        assertThat(tracker.findAll(), is(exp));
+    public void deleteItem() {
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+           Item item =  tracker.add(new Item("name"));
+            assertThat(tracker.delete(item.getId()), is (true));
+            assertFalse(tracker.delete(item.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void whenDelete1of4ThenReturn3() {
-        SqlTracker tracker = new SqlTracker();
-        tracker.init();
-        Item item = new Item("Luke");
-        item = tracker.add(item);
-        assertThat(tracker.delete(item.getId()), is(true));
-        assertNull(tracker.findById(item.getId()));
-    }
-
-    @Test
-    public void whenReplaceBillThenLil() {
-        SqlTracker tracker = new SqlTracker();
-        tracker.init();
-        Item item = new Item("Bill");
-        tracker.add(item);
-        List<Item> idList = tracker.findByName(item.getName());
-        String id = idList.get(0).getId();
-        Item expItem = new Item("Lil");
-        expItem.setId(id);
-        tracker.replace(id, expItem);
-        assertEquals(expItem.getName(), tracker.findById(id).getName());
-        tracker.delete(id);
+    public void replaceItem() {
+        try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
+            Item oldItem =  tracker.add(new Item("Bill"));
+            Item newItem = tracker.add(new Item("Lil"));
+            assertThat(tracker.replace(oldItem.getId(), newItem), is (true));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
