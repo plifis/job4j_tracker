@@ -45,32 +45,16 @@ public class SqlTracker implements Store {
     @Override
     public Item add(Item item) {
         String strQuery = "INSERT INTO items (name) values (?) ";
-       try (PreparedStatement statement = cn.prepareStatement(strQuery)) {
+       try (PreparedStatement statement = cn.prepareStatement(strQuery, Statement.RETURN_GENERATED_KEYS)) {
            statement.setString(1, item.getName());
            statement.executeUpdate();
-           item.setId(this.getIdSerialKey());
+           ResultSet set = statement.getGeneratedKeys();
+           set.next();
+           item.setId(set.getString(1));
        } catch (Exception e) {
            e.printStackTrace();
        }
         return item;
-    }
-
-    /**
-     * Получение идентификатора последней добавленной задачи
-     * @return значение идентификатора
-     */
-    private String getIdSerialKey() {
-        String strQuery = "SELECT MAX(id) FROM items";
-        String id = null;
-        try (PreparedStatement statement = cn.prepareStatement(strQuery)) {
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-               id = result.getString("max");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return id;
     }
 
     /**
@@ -105,11 +89,14 @@ public class SqlTracker implements Store {
 
     @Override
     public boolean delete(String id) {
-        StringBuilder builder = new StringBuilder("DELETE FROM items WHERE id = '" + id + "'");
+        String strQuery = "DELETE FROM items WHERE id =  ?";
         boolean result = false;
-        try (Statement statement = cn.createStatement()) {
-           statement.execute(builder.toString());
-            result = true;
+        try (PreparedStatement statement = cn.prepareStatement(strQuery)) {
+            statement.setInt(1, Integer.parseInt(id));
+            int i = statement.executeUpdate();
+            if (i > 0) {
+                result = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

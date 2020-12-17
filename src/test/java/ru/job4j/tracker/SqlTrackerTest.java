@@ -49,11 +49,9 @@ public class SqlTrackerTest {
         SqlTracker tracker = new SqlTracker();
         tracker.init();
         Item item = new Item("Luke");
-        tracker.add(item);
-        List<Item> idList = tracker.findByName(item.getName());
-        String id = idList.get(0).getId();
-        assertThat(tracker.delete(id), is(true));
-        assertNull(tracker.findById(id));
+        item = tracker.add(item);
+        assertThat(tracker.delete(item.getId()), is(true));
+        assertNull(tracker.findById(item.getId()));
     }
 
     @Test
