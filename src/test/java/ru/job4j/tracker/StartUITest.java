@@ -20,7 +20,7 @@
 //        );
 //        StubAction action = new StubAction();
 //        List<UserAction> list = Arrays.asList(action);
-//        new StartUI().init(input, new Tracker(), list);
+//        new StartUI().init(input, new MemTracker(), list);
 //        assertThat(action.isCall(), is(true));
 //    }
 //    @Test

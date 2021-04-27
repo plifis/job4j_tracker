@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class MemTracker {
+public class MemTracker implements Store {
     /**
      * Массив для хранения заявок.
      */
@@ -14,6 +14,8 @@ public class MemTracker {
      * Указатель ячейки для новой заявки.
      */
     private int position = 0;
+
+
     /**
      * Метод добавления заявки в хранилище
      *
@@ -51,8 +53,6 @@ public class MemTracker {
         boolean rsl = index != -1;
         if (rsl) {
             items.remove(index);
-//            System.arraycopy(items, index++, items, index, position - index);
- //           position--;
         }
         return rsl;
     }
@@ -62,15 +62,12 @@ public class MemTracker {
     }
 
     public List<Item> findByName(String key) {
-        List<Item> itemsName = new ArrayList<Item>(); //Item[this.items.size()];
-//        int size = 0;
+        List<Item> itemsName = new ArrayList<Item>();
         for (int i = 0; i < this.items.size(); i++) {
             if (this.items.get(i).getName().equals(key)) {
                 itemsName.add(this.items.get(i));
-//                size++;
             }
         }
-//        itemsName = Arrays.copyOf(itemsName, size);
         return itemsName;
     }
 
@@ -85,7 +82,7 @@ public class MemTracker {
          */
         private String generateId() {
             Random rm = new Random();
-            return String.valueOf(rm.nextLong() + System.currentTimeMillis());
+            return String.valueOf(rm.nextInt());
         }
     private int indexOf(String id) {
         int rsl = -1;
@@ -96,4 +93,16 @@ public class MemTracker {
             }
         }
         return rsl;
-    }    }
+    }
+
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void close() throws Exception {
+
+    }
+}

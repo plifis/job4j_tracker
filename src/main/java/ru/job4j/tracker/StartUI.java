@@ -36,16 +36,5 @@ public class StartUI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        MemTracker memTracker = new MemTracker();
-////        List<UserAction> actions = Arrays.asList(
-////                new CreateAction(), new ShowAllAction(), new ReplaceAction(),
-////                new DeleteAction(), new FindIdAction(), new FindNameAction(),
-////                new ExitAction()
-////        );
-////        new StartUI().init(validate, memTracker, actions);
     }
-
-
-
 }
