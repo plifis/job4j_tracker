@@ -58,7 +58,7 @@ public class SqlTracker implements Store {
            statement.executeUpdate();
            ResultSet set = statement.getGeneratedKeys();
            if (set.next()) {
-               item.setId(set.getString(1));
+               item.setId(set.getInt(1));
            }
        } catch (Exception e) {
            e.printStackTrace();
@@ -149,7 +149,7 @@ public class SqlTracker implements Store {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 item = new Item(result.getString("name"));
-                item.setId(result.getString("id"));
+                item.setId(result.getInt("id"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,7 +169,7 @@ public class SqlTracker implements Store {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 Item item = new Item(result.getString("name"));
-                item.setId(result.getString("id"));
+                item.setId(result.getInt("id"));
                 itemList.add(item);
             }
         } catch (Exception e) {

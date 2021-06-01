@@ -18,8 +18,7 @@ public class MemTracker implements Store {
 
     /**
      * Метод добавления заявки в хранилище
-     *
-     * @param item новая заявка
+     *@param item новая заявка
      */
     public Item add(Item item) {
         item.setId(generateId());
@@ -38,7 +37,7 @@ public class MemTracker implements Store {
         int index = indexOf(id);
         boolean rsl = index != -1;
         if (rsl) {
-            item.setId(id);
+            item.setId(Integer.parseInt(id));
             this.items.set(index, item);
         }
         return rsl;
@@ -80,9 +79,9 @@ public class MemTracker implements Store {
          * Так как у заявки нет уникальности полей, имени и описание. Для идентификации нам нужен уникальный ключ.
          * @return Уникальный ключ.
          */
-        private String generateId() {
+        private int generateId() {
             Random rm = new Random();
-            return String.valueOf(rm.nextInt());
+            return rm.nextInt();
         }
     private int indexOf(String id) {
         int rsl = -1;

@@ -21,7 +21,7 @@ public class ReplaceActionTest {
         MemTracker tracker = new MemTracker();
         String name = "Replaced item";
         tracker.add(new Item(name));
-        String id = tracker.findByName(name).get(0).getId();
+        String id = String.valueOf(tracker.findByName(name).get(0).getId());
         String replacedName = "New item name";
         ReplaceAction rep = new ReplaceAction();
 

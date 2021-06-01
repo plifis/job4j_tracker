@@ -41,7 +41,7 @@ public class FindIdActionTest {
 
         Input input = mock(Input.class);
 
-        when(input.askStr(any(String.class))).thenReturn(item.getId());
+        when(input.askStr(any(String.class))).thenReturn(String.valueOf(item.getId()));
         find.execute(input, tracker);
         assertThat(out.toString(), is(item.toString() + System.lineSeparator()));
     }

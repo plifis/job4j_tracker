@@ -55,7 +55,7 @@ public class SqlTrackerTest {
     public void findById() {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Item item = tracker.add(new Item("Nikita"));
-            String id = item.getId();
+            String id = String.valueOf(item.getId());
             tracker.add(new Item("name"));
             tracker.add(new Item("number_two"));
             assertThat(tracker.findById(id), is(item));
@@ -68,8 +68,8 @@ public class SqlTrackerTest {
     public void deleteItem() {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
            Item item =  tracker.add(new Item("name"));
-            assertThat(tracker.delete(item.getId()), is(true));
-            assertFalse(tracker.delete(item.getId()));
+            assertThat(tracker.delete(String.valueOf(item.getId())), is(true));
+            assertFalse(tracker.delete(String.valueOf(item.getId())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class SqlTrackerTest {
         try (SqlTracker tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Item oldItem =  tracker.add(new Item("Bill"));
             Item newItem = tracker.add(new Item("Lil"));
-            assertThat(tracker.replace(oldItem.getId(), newItem), is(true));
+            assertThat(tracker.replace(String.valueOf(oldItem.getId()), newItem), is(true));
         } catch (Exception e) {
             e.printStackTrace();
         }
