@@ -14,7 +14,7 @@ public class HibernateRun {
                 .configure().build();
         try {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Item item = create(new Item("Learn Hibernate"), sf);
+            Item item = create(new Item("Learn Hibernate", "for Beginners"), sf);
             System.out.println(item);
             item.setName("Learn Hibernate 5.");
             update(item, sf);
@@ -22,6 +22,8 @@ public class HibernateRun {
             Item rsl = findById(item.getId(), sf);
             System.out.println(rsl);
             delete(rsl.getId(), sf);
+            create(new Item("First", "Point number 1"), sf);
+            create(new Item("Second", "Point number 2"), sf);
             List<Item> list = findAll(sf);
             for (Item it : list) {
                 System.out.println(it);
@@ -53,7 +55,7 @@ public class HibernateRun {
     public static void delete(Integer id, SessionFactory sf) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Item item = new Item(null);
+        Item item = new Item();
         item.setId(id);
         session.delete(item);
         session.getTransaction().commit();
