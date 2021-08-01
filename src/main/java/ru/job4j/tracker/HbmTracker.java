@@ -7,6 +7,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.persistence.Query;
 import java.util.List;
 
 public class HbmTracker implements Store, AutoCloseable {
@@ -35,15 +36,15 @@ public class HbmTracker implements Store, AutoCloseable {
     public boolean replace(String id, Item item) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Item temp = session.get(Item.class, id);
+        Item temp = session.get(Item.class, Integer.parseInt(id));
         if (temp == null) {
             return false;
         }
         item.setId(Integer.parseInt(id));
-        session.update(item);
+        session.merge(item);
         session.getTransaction().commit();
         session.close();
-        return true;
+            return true;
     }
 
     @Override
@@ -72,7 +73,8 @@ public class HbmTracker implements Store, AutoCloseable {
     public List<Item> findByName(String key) {
         Session session = sf.openSession();
         session.beginTransaction();
-        List result = session.createQuery("FROM ru.job4j.tracker.Item I WHERE I.id=" + key).list();
+        List result = session.createQuery("FROM ru.job4j.tracker.Item i WHERE i.name = :name")
+                .setParameter("name", key).list();
         session.getTransaction().commit();
         session.close();
         return result;
@@ -82,7 +84,7 @@ public class HbmTracker implements Store, AutoCloseable {
     public Item findById(String id) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Item result = session.get(Item.class, id);
+        Item result = session.get(Item.class, Integer.parseInt(id));
         session.getTransaction().commit();
         session.close();
         return result;
