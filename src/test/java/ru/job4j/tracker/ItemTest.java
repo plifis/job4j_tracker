@@ -29,6 +29,7 @@ public class ItemTest {
                 new Item("Tom")
 
         );
+
         list.sort(new SortItemFromZToA());
         List<Item> expected = new ArrayList<>();
         expected.add(new Item("Tom"));
