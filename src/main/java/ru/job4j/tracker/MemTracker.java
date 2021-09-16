@@ -49,7 +49,7 @@ public class MemTracker implements Store {
      */
     public boolean delete(String id) {
         int index = indexOf(id);
-        boolean rsl = index != -1;
+        boolean rsl = (index != -1);
         if (rsl) {
             items.remove(index);
         }
@@ -86,7 +86,7 @@ public class MemTracker implements Store {
     private int indexOf(String id) {
         int rsl = -1;
         for (int index = 0; index < items.size(); index++) {
-            if (items.get(index).getId().equals(id)) {
+            if (items.get(index).getId() == Integer.parseInt(id)) {
                 rsl = index;
                 break;
             }

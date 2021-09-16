@@ -66,7 +66,7 @@ public class Item implements Comparable<Item> {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
-                + ", created=" + created
+                + ", created=" + created.toLocalDateTime().toLocalDate()
                 + '}';
     }
 
