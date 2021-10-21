@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.*;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class ItemTest {
@@ -19,7 +20,7 @@ public class ItemTest {
         expected.add(new Item("Alexey"));
         expected.add(new Item("Nikita"));
         expected.add(new Item("Tom"));
-        assertEquals(list, expected);
+        assertEquals(list.toString(), expected.toString());
     }
     @Test
     public void whenTestCompareToItemThenZToA() {
@@ -27,12 +28,12 @@ public class ItemTest {
         list.add(new Item("Nikita"));
         list.add(new Item("Alexey"));
         list.add(new Item("Tom"));
-        list.sort(new SortItemFromZToA());
+        Collections.sort(list, new SortItemFromZToA());
         List<Item> expected = new ArrayList<>();
         expected.add(new Item("Tom"));
         expected.add(new Item("Nikita"));
         expected.add(new Item("Alexey"));
-        assertEquals(list, expected);
+        assertEquals(list.toString(), expected.toString());
 
     }
 }
