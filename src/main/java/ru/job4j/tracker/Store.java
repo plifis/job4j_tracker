@@ -10,4 +10,5 @@ public interface Store extends AutoCloseable {
     List<Item> findAll();
     List<Item> findByName(String key);
     Item findById(String id);
+    void findAllObserve(Observe<Item> observe);
 }

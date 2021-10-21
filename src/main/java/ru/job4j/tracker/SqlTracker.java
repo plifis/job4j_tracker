@@ -157,6 +157,22 @@ public class SqlTracker implements Store {
         return item;
     }
 
+    @Override
+    public void findAllObserve(Observe<Item> observe) {
+        List<Item> itemList = new ArrayList<>();
+        try (PreparedStatement statement = cn.prepareStatement("SELECT * FROM items")) {
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                Item item = new Item(result.getString("name"));
+                item.setId(result.getInt("id"));
+                itemList.add(item);
+                observe.receive(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Вспомогательный метод для поиска по готовому запросу
      * @param query готовый запрос SQL в виде String
@@ -177,4 +193,6 @@ public class SqlTracker implements Store {
         }
         return itemList;
     }
+
+
 }
