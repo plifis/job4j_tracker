@@ -1,4 +1,4 @@
-create table items (
-   id serial primary key not null,
-   name varchar(2000)
-);
+insert into items(name)
+values('Выполнить задачу № 1'),
+      ('Выполнить задачу № 2'),
+      ('Задача № 3');
