@@ -74,7 +74,15 @@ public class MemTracker implements Store {
         int index = indexOf(id);
         return index != -1 ? items.get(index) : null;
     }
-        /**
+
+    @Override
+    public void findAllObserve(Observe<Item> observe) {
+        for (Item item : items) {
+            observe.receive(item);
+        }
+    }
+
+    /**
          * Метод генерирует уникальный ключ для заявки.
          * Так как у заявки нет уникальности полей, имени и описание. Для идентификации нам нужен уникальный ключ.
          * @return Уникальный ключ.
